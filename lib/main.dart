@@ -15,6 +15,43 @@ class _HomeState extends State<Home> {
   TextEditingController weightCtrl = TextEditingController();
   TextEditingController heightCtrl = TextEditingController();
 
+  String _infoText = "Informe seus dados!";
+
+  void _resetFields() {
+    weightCtrl.clear();
+    heightCtrl.clear();
+    setState(() {
+      _infoText = "Informe seus dados!";
+    });
+  }
+
+  void calculate() {
+    double weight = double.parse(weightCtrl.text);
+    double height = double.parse(heightCtrl.text) / 100;
+
+    double imc = weight / (height * height);
+    String imcformatted = imc.toStringAsPrecision(4);
+
+    setState(() {
+      if (imc < 18.6) _infoText = "Abaixo do peso ($imcformatted)";
+
+      if (imc >= 18.6 && imc < 24.9) _infoText = "Peso ideal ($imcformatted)";
+
+      if (imc >= 24.9 && imc < 29.9)
+        _infoText = "Levemente acima do peso ($imcformatted)";
+
+      if (imc >= 29.9 && imc < 34.9)
+        _infoText = "Obesidade grau I ($imcformatted)";
+
+      if (imc >= 34.9 && imc < 39.9)
+        _infoText = "Abaixo do Peso ($imcformatted)";
+
+      if (imc >= 40) _infoText = "Abaixo do Peso ($imcformatted)";
+    });
+
+    print(_infoText);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +62,7 @@ class _HomeState extends State<Home> {
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.refresh),
-                onPressed: () {},
+                onPressed: _resetFields,
               )
             ]),
         body: SingleChildScrollView(
@@ -71,7 +108,7 @@ class _HomeState extends State<Home> {
                 child: Container(
                   height: 50,
                   child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: calculate,
                     child: Text(
                       "CALCULAR",
                       style: TextStyle(fontSize: 25),
@@ -82,7 +119,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Text(
-                "Info",
+                _infoText,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.orange, fontSize: 25.0),
               )
