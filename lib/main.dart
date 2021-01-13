@@ -8,10 +8,13 @@ void main() => runApp(MaterialApp(
 
 class Home extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => HomeState();
+  State<StatefulWidget> createState() => _HomeState();
 }
 
-class HomeState extends State<Home> {
+class _HomeState extends State<Home> {
+  TextEditingController weightCtrl = TextEditingController();
+  TextEditingController heightCtrl = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +35,7 @@ class HomeState extends State<Home> {
             children: <Widget>[
               Icon(Icons.person_outline, size: 120, color: Colors.orange),
               TextField(
+                controller: weightCtrl,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: "Peso(Kg)",
@@ -47,6 +51,7 @@ class HomeState extends State<Home> {
                 ),
               ),
               TextField(
+                controller: heightCtrl,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: "Altura(cm)",
